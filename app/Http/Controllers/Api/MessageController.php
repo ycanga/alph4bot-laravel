@@ -109,4 +109,29 @@ class MessageController extends Controller
 
         return [];
     }
+
+    public function findUser($username)
+    {
+        $messages = json_decode($this->getMessages());
+
+        // Kullanıcı adı ile eşleşen chat_id'yi bul
+        $chatId = null;
+        foreach ($messages->result as $message) {
+            // Mesajdaki kullanıcı adı
+            $messageUsername = isset($message->message->from->username) ? $message->message->from->username : '';
+
+            // Eğer kullanıcı adı eşleşiyorsa chat_id'yi al
+            if ($messageUsername === $username) {
+                $chatId = $message->message->chat->id;
+                break;
+            }
+        }
+
+        // Sonuçları döndür
+        if ($chatId !== null) {
+            return response()->json(['chat_id' => $chatId]);
+        } else {
+            return response()->json(['error' => 'Username not found'], 404);
+        }
+    }
 }

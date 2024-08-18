@@ -19,4 +19,5 @@ Route::prefix('v1')->group(function () {
     Route::get('chat/messages', [MessageController::class, 'getMessages'])->name('messages.get');
     Route::post('chat/delete/{chat_id}', [MessageController::class, 'deleteChat'])->name('chat.delete');
     Route::post('chat/send', [MessageController::class, 'sendMessage'])->name('chat.send');
+    Route::get('find/{username}', [MessageController::class, 'findUser'])->name('chat.find');
 });
